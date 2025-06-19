@@ -8,11 +8,18 @@
   </head>
   <body>
     <h1>けいさんカード</h1>
-
+    <!-- スタート画面 -->
     <div id="start-screen">
+      <p>もんだいのじゅんばん</p>
+      <label
+        ><input type="radio" name="order" value="sequential" checked />
+        じゅんばん</label
+      >
+      <label><input type="radio" name="order" value="random" /> ランダム</label>
+      <br /><br />
       <button id="start-btn">スタート</button>
     </div>
-
+    <!-- ゲーム画面 -->
     <div id="game-screen" style="display: none">
       <div class="progress-container">
         <div id="progress-bar"></div>
@@ -21,14 +28,14 @@
       <div class="buttons" id="answer-buttons"></div>
       <div class="result" id="result"></div>
     </div>
-
+    <!-- エンド画面 -->
     <div id="end-screen" style="display: none">
+      <p>よくがんばったね！！</p>
       <p id="final-message"></p>
       <button onclick="location.reload()">もういちど</button>
     </div>
 
     <audio id="correct-audio" src="correct.mp3" preload="auto"></audio>
-
     <script src="script.js"></script>
   </body>
 </html>

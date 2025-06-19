@@ -10,21 +10,8 @@ h1 {
   color: #333;
 }
 
-.problem {
-  font-size: 2rem;
-  margin: 20px 0;
-}
-
-.buttons{
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
-  max-width: 200px;
-  margin: 0 auto;
-  }
-.buttons button {
+button {
   font-size: 1.2rem;
-  margin: 5px;
   padding: 10px 20px;
   border: none;
   background-color: #87cefa;
@@ -32,27 +19,26 @@ h1 {
   border-radius: 8px;
   cursor: pointer;
 }
-
-.buttons button:hover {
+button:hover {
   background-color: #6bb8e4;
+}
+
+.problem {
+  font-size: 2rem;
+  margin: 20px 0;
+}
+
+.buttons {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  max-width: 200px;
+  margin: 0 auto;
 }
 
 .result {
   font-size: 1.5rem;
   margin: 15px 0;
-}
-
-.next-btn {
-  font-size: 1rem;
-  padding: 8px 16px;
-  background-color: #90ee90;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.next-btn:hover {
-  background-color: #7edc7e;
 }
 
 .progress-container {

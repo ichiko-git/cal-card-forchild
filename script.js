@@ -10,7 +10,6 @@ const endScreen = document.getElementById("end-screen");
 const problemText = document.getElementById("problem");
 const resultText = document.getElementById("result");
 const answerButtons = document.getElementById("answer-buttons");
-const nextBtn = document.getElementById("next-btn");
 const finalMessage = document.getElementById("final-message");
 const progressBar = document.getElementById("progress-bar");
 const correctAudio = document.getElementById("correct-audio");
@@ -20,13 +19,18 @@ startBtn.onclick = () => {
   startScreen.style.display = "none";
   gameScreen.style.display = "block";
   startTime = Date.now();
-  generateProblemList();
+
+  const selectedOrder = document.querySelector(
+    'input[name="order"]:checked'
+  ).value;
+  generateProblemList(selectedOrder);
+
   showProblem();
   updateProgressBar();
 };
 
 // 問題リストを作る
-function generateProblemList() {
+function generateProblemList(order = "sequential") {
   problems = [];
   for (let a = 1; a <= 9; a++) {
     for (let b = 1; b <= 9; b++) {
@@ -35,7 +39,9 @@ function generateProblemList() {
       }
     }
   }
-  shuffle(problems);
+  if (order === "random") {
+    shuffle(problems);
+  }
 }
 
 // 問題をシャッフルする
@@ -109,5 +115,5 @@ function endGame() {
   const minutes = Math.floor(elapsed / 60);
   const seconds = elapsed % 60;
 
-  finalMessage.textContent = `よくがんばったね！！\nぜんぶで ${minutes}ふん${seconds}びょう かかりました！`;
+  finalMessage.textContent = `ぜんぶで ${minutes}ふん${seconds}びょう かかりました！`;
 }
