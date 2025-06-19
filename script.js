@@ -109,5 +109,5 @@ function endGame() {
   const minutes = Math.floor(elapsed / 60);
   const seconds = elapsed % 60;
 
-  finalMessage.textContent = `よくがんばったね！！<br>ぜんぶで ${minutes}分${seconds}びょう かかりました！`;
+  finalMessage.textContent = `よくがんばったね！！\nぜんぶで ${minutes}ふん${seconds}びょう かかりました！`;
 }
