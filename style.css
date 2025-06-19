@@ -1,0 +1,66 @@
+body {
+  font-family: sans-serif;
+  text-align: center;
+  background-color: #f0f8ff;
+  padding: 20px;
+}
+
+h1 {
+  font-size: 2rem;
+  color: #333;
+}
+
+.problem {
+  font-size: 2rem;
+  margin: 20px 0;
+}
+
+.buttons button {
+  font-size: 1.2rem;
+  margin: 5px;
+  padding: 10px 20px;
+  border: none;
+  background-color: #87cefa;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.buttons button:hover {
+  background-color: #6bb8e4;
+}
+
+.result {
+  font-size: 1.5rem;
+  margin: 15px 0;
+}
+
+.next-btn {
+  font-size: 1rem;
+  padding: 8px 16px;
+  background-color: #90ee90;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.next-btn:hover {
+  background-color: #7edc7e;
+}
+
+.progress-container {
+  width: 100%;
+  max-width: 300px;
+  background-color: #eee;
+  border-radius: 20px;
+  overflow: hidden;
+  margin: 10px auto;
+  height: 20px;
+}
+
+#progress-bar {
+  height: 100%;
+  width: 0%;
+  background-color: #87cefa;
+  transition: width 0.4s ease-in-out;
+}
