@@ -23,22 +23,35 @@ startBtn.onclick = () => {
   const selectedOrder = document.querySelector(
     'input[name="order"]:checked'
   ).value;
-  generateProblemList(selectedOrder);
+  const selectedType = document.querySelector(
+    'input[name="type"]:checked'
+  ).value;
+  if (selectedType === "carry") {
+    renderAnswerButtons(18); // くり上がりあり → 1〜18
+  } else {
+    renderAnswerButtons(10); // くり上がりなし → 1〜10
+  }
+  generateProblemList(selectedOrder, selectedType);
 
   showProblem();
   updateProgressBar();
 };
 
 // 問題リストを作る
-function generateProblemList(order = "sequential") {
+function generateProblemList(order = "sequential", type = "no-carry") {
   problems = [];
   for (let a = 1; a <= 9; a++) {
     for (let b = 1; b <= 9; b++) {
-      if (a + b <= 10) {
+      const sum = a + b;
+      if (
+        (type === "no-carry" && sum <= 10) ||
+        (type === "carry" && sum > 10)
+      ) {
         problems.push({ a, b });
       }
     }
   }
+
   if (order === "random") {
     shuffle(problems);
   }
@@ -88,16 +101,26 @@ function checkAnswer(selected) {
   }
 }
 
-// １〜１０のボタンを作る
-function createAnswerButtons() {
-  for (let i = 1; i <= 10; i++) {
-    const btn = document.createElement("button");
-    btn.textContent = i;
-    btn.onclick = () => checkAnswer(i);
-    answerButtons.appendChild(btn);
+// 回答ボタンを作る
+function renderAnswerButtons(maxAnswer) {
+  const container = document.getElementById("answer-buttons");
+  container.innerHTML = ""; // 既存ボタンをクリア
+  if (maxAnswer === 18) {
+    for (let i = 11; i <= maxAnswer; i++) {
+      const btn = document.createElement("button");
+      btn.textContent = i;
+      btn.addEventListener("click", () => checkAnswer(i));
+      container.appendChild(btn);
+    }
+  } else {
+    for (let i = 1; i <= maxAnswer; i++) {
+      const btn = document.createElement("button");
+      btn.textContent = i;
+      btn.addEventListener("click", () => checkAnswer(i));
+      container.appendChild(btn);
+    }
   }
 }
-createAnswerButtons();
 
 // プログレスバーを更新する
 function updateProgressBar() {
