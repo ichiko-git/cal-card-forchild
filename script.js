@@ -26,32 +26,54 @@ startBtn.onclick = () => {
   const selectedType = document.querySelector(
     'input[name="type"]:checked'
   ).value;
+  const selectedOp = document.querySelector(
+    'input[name="operation"]:checked'
+  ).value;
+
   if (selectedType === "carry") {
     renderAnswerButtons(18); // くり上がりあり → 1〜18
   } else {
     renderAnswerButtons(10); // くり上がりなし → 1〜10
   }
-  generateProblemList(selectedOrder, selectedType);
+  generateProblemList(selectedOrder, selectedType, selectedOp);
 
-  showProblem();
+  displayProblem();
   updateProgressBar();
 };
 
 // 問題リストを作る
-function generateProblemList(order = "sequential", type = "no-carry") {
+function generateProblemList(
+  order = "sequential",
+  type = "no-carry",
+  operation = "add"
+) {
   problems = [];
-  for (let a = 1; a <= 9; a++) {
-    for (let b = 1; b <= 9; b++) {
-      const sum = a + b;
-      if (
-        (type === "no-carry" && sum <= 10) ||
-        (type === "carry" && sum > 10)
-      ) {
-        problems.push({ a, b });
+
+  if (operation === "sub") {
+    // 引き算
+    for (let a = 1; a <= 10; a++) {
+      for (let b = 1; b <= 9; b++) {
+        if (a > b) {
+          problems.push({ a, b, op: "-" });
+        }
+      }
+    }
+  } else {
+    //足し算
+    for (let a = 1; a <= 9; a++) {
+      for (let b = 1; b <= 9; b++) {
+        const sum = a + b;
+        if (
+          (type === "no-carry" && sum <= 10) ||
+          (type === "carry" && sum > 10)
+        ) {
+          problems.push({ a, b, op: "+" });
+        }
       }
     }
   }
 
+  // ランダムの場合
   if (order === "random") {
     shuffle(problems);
   }
@@ -78,12 +100,23 @@ function showProblem() {
   problemText.textContent = `${a} + ${b} = ?`;
 }
 
-// 正誤判定
-function checkAnswer(selected) {
-  const { a, b } = problems[currentIndex];
-  const correctAnswer = a + b;
+function displayProblem() {
+  if (currentIndex >= problems.length) {
+    endGame();
+    return;
+  }
 
-  if (selected === correctAnswer) {
+  const problem = problems[currentIndex];
+  const { a, b, op } = problem;
+  problemText.textContent = `${a} ${op} ${b} = ?`;
+}
+
+function checkAnswer(input) {
+  const { a, b, op } = problems[currentIndex];
+  const correct = op === "+" ? a + b : a - b;
+
+  if (input === correct) {
+    // 正解処理（音・次の問題へ）
     resultText.textContent = "○ せいかい！";
     resultText.style.color = "green";
     if (correctAudio) {
@@ -91,10 +124,11 @@ function checkAnswer(selected) {
       correctAudio.play();
       // 次の問題へ
       currentIndex++;
-      showProblem();
+      displayProblem();
       updateProgressBar();
     }
   } else {
+    // 間違い処理
     // 正解するまで進めない
     resultText.textContent = "✕ ざんねん…";
     resultText.style.color = "red";
