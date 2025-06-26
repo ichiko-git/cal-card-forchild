@@ -1,4 +1,4 @@
-const TOTAL_PROBLEMS = 45;
+let total_problems = 0;
 let problems = [];
 let currentIndex = 0;
 let startTime = 0;
@@ -13,6 +13,27 @@ const answerButtons = document.getElementById("answer-buttons");
 const finalMessage = document.getElementById("final-message");
 const progressBar = document.getElementById("progress-bar");
 const correctAudio = document.getElementById("correct-audio");
+const operationRadios = document.querySelectorAll('input[name="operation"]');
+const carryOptions = document.getElementById("carry-options");
+
+// ページ読み込み時に初期状態を決める
+window.addEventListener("DOMContentLoaded", () => {
+  const checkedOp = document.querySelector(
+    'input[name="operation"]:checked'
+  ).value;
+  carryOptions.style.display = checkedOp === "sub" ? "none" : "block";
+});
+
+// くりあがりの選択表示
+operationRadios.forEach((radio) => {
+  radio.addEventListener("change", () => {
+    if (radio.value === "sub" && radio.checked) {
+      carryOptions.style.display = "none";
+    } else if (radio.value === "add" && radio.checked) {
+      carryOptions.style.display = "block";
+    }
+  });
+});
 
 // スタートボタンを押した時
 startBtn.onclick = () => {
@@ -72,6 +93,8 @@ function generateProblemList(
       }
     }
   }
+
+  total_problems = problems.length;
 
   // ランダムの場合
   if (order === "random") {
@@ -158,7 +181,7 @@ function renderAnswerButtons(maxAnswer) {
 
 // プログレスバーを更新する
 function updateProgressBar() {
-  const percent = Math.floor((currentIndex / TOTAL_PROBLEMS) * 100);
+  const percent = Math.floor((currentIndex / total_problems) * 100);
   progressBar.style.width = `${percent}%`;
 }
 

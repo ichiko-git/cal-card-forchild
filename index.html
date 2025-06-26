@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>けいさんカード</title>
+    <link rel="icon" href="img/favicon.png" type="image/png" />
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
@@ -17,11 +18,14 @@
       >
       <label><input type="radio" name="operation" value="sub" /> ひき算</label>
 
-      <p>くりあがりあり／なし</p>
-      <label
-        ><input type="radio" name="type" value="no-carry" checked /> なし</label
-      >
-      <label><input type="radio" name="type" value="carry" /> あり</label>
+      <div id="carry-options">
+        <p>くりあがりあり／なし</p>
+        <label
+          ><input type="radio" name="type" value="no-carry" checked />
+          なし</label
+        >
+        <label><input type="radio" name="type" value="carry" /> あり</label>
+      </div>
 
       <p>もんだいのじゅんばん</p>
       <label
@@ -48,7 +52,7 @@
       <button onclick="location.reload()">もういちど</button>
     </div>
 
-    <audio id="correct-audio" src="correct.mp3" preload="auto"></audio>
+    <audio id="correct-audio" src="audio/correct.mp3" preload="auto"></audio>
     <script src="script.js"></script>
   </body>
 </html>
