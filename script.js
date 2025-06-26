@@ -138,19 +138,22 @@ function checkAnswer(input) {
   const { a, b, op } = problems[currentIndex];
   const correct = op === "+" ? a + b : a - b;
 
-  if (input === correct) {
-    // 正解処理（音・次の問題へ）
-    resultText.textContent = "○ せいかい！";
-    resultText.style.color = "green";
-    if (correctAudio) {
-      correctAudio.currentTime = 0;
-      correctAudio.play();
-      // 次の問題へ
-      currentIndex++;
-      displayProblem();
-      updateProgressBar();
-    }
-  } else {
+if (input === correct) {
+  resultText.textContent = "○ せいかい！";
+  resultText.style.color = "green";
+
+  if (correctAudio) {
+    correctAudio.currentTime = 0;
+    correctAudio.play();
+  }
+
+  // ちょっと待ってから次へ（300msくらい）
+  setTimeout(() => {
+    currentIndex++;
+    displayProblem();
+    updateProgressBar();
+  }, 300);
+} else {
     // 間違い処理
     // 正解するまで進めない
     resultText.textContent = "✕ ざんねん…";
