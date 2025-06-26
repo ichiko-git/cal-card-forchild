@@ -42,7 +42,6 @@ button:hover {
   background-color: #eee;
   cursor: pointer;
   border: 2px solid transparent;
-  font-size: 1.2rem;
   transition: all 0.3s;
   user-select: none;
 }
@@ -50,7 +49,6 @@ button:hover {
 .radio-group input[type="radio"]:checked + label {
   background-color: #cceeff;
   border-color: #3399ff;
-  font-weight: bold;
 }
 
 .problem {
