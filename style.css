@@ -23,6 +23,36 @@ button:hover {
   background-color: #6bb8e4;
 }
 
+.radio-group {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+
+.radio-group input[type="radio"] {
+  display: none;
+}
+
+.radio-group label {
+  padding: 10px 20px;
+  border-radius: 20px;
+  background-color: #eee;
+  cursor: pointer;
+  border: 2px solid transparent;
+  font-size: 1.2rem;
+  transition: all 0.3s;
+  user-select: none;
+}
+
+.radio-group input[type="radio"]:checked + label {
+  background-color: #cceeff;
+  border-color: #3399ff;
+  font-weight: bold;
+}
+
 .problem {
   font-size: 2rem;
   margin: 20px 0;

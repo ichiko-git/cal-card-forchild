@@ -11,31 +11,43 @@
     <h1>けいさんカード</h1>
     <!-- スタート画面 -->
     <div id="start-screen">
-      <p>けいさんのしゅるい</p>
-      <label
-        ><input type="radio" name="operation" value="add" checked />
-        たし算</label
-      >
-      <label><input type="radio" name="operation" value="sub" /> ひき算</label>
+      <div class="radio-group">
+        <input type="radio" id="add" name="operation" value="add" checked />
+        <label for="add">たし算</label>
 
-      <div id="carry-options">
-        <p>くりあがりあり／なし</p>
-        <label
-          ><input type="radio" name="type" value="no-carry" checked />
-          なし</label
-        >
-        <label><input type="radio" name="type" value="carry" /> あり</label>
+        <input type="radio" id="sub" name="operation" value="sub" />
+        <label for="sub">ひき算</label>
       </div>
 
-      <p>もんだいのじゅんばん</p>
-      <label
-        ><input type="radio" name="order" value="sequential" checked />
-        じゅんばん</label
-      >
-      <label><input type="radio" name="order" value="random" /> ランダム</label>
+      <div id="carry-options" class="radio-group">
+        <input
+          type="radio"
+          id="no-carry"
+          name="type"
+          value="no-carry"
+          checked
+        />
+        <label for="no-carry">くりあがりなし</label>
+        <input type="radio" id="carry" name="type" value="carry" />
+        <label for="carry">くりあがりあり</label>
+      </div>
+
+      <div class="radio-group">
+        <input
+          type="radio"
+          id="sequential"
+          name="order"
+          value="sequential"
+          checked
+        />
+        <label for="sequential">じゅんばん</label>
+        <input type="radio" id="random" name="order" value="random" />
+        <label for="random">ランダム</label>
+      </div>
       <br /><br />
       <button id="start-btn">スタート</button>
     </div>
+
     <!-- ゲーム画面 -->
     <div id="game-screen" style="display: none">
       <div class="progress-container">
