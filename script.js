@@ -192,23 +192,47 @@ function renderAnswerButtons(maxAnswer) {
   container.innerHTML = ""; // 既存ボタンをクリア
 
   if (maxAnswer === "mul") {
-    // かけ算用：0〜9の数字ボタンを作成
+    // かけ算用：電卓風のボタン配置
     let currentAnswer = "";
 
-    // 数字ボタン（0〜9）
-    for (let i = 0; i <= 9; i++) {
+    // 電卓風のグリッドレイアウトを適用
+    container.style.display = "grid";
+    container.style.gridTemplateColumns = "repeat(3, 1fr)";
+    container.style.gridTemplateRows = "repeat(4, 1fr)";
+    container.style.gap = "10px";
+    container.style.maxWidth = "300px";
+    container.style.margin = "0 auto";
+
+    // 数字ボタン（7, 8, 9, 4, 5, 6, 1, 2, 3, 0）を電卓順で配置
+    const numbers = [7, 8, 9, 4, 5, 6, 1, 2, 3, 0];
+    numbers.forEach((num) => {
       const btn = document.createElement("button");
-      btn.textContent = i;
+      btn.textContent = num;
+      btn.style.fontSize = "1rem";
+      btn.style.padding = "8px 12px";
       btn.addEventListener("click", () => {
-        currentAnswer += i.toString();
+        currentAnswer += num.toString();
         updateAnswerDisplay(currentAnswer);
       });
       container.appendChild(btn);
-    }
+    });
 
-    // 決定ボタン
+    // クリアボタン（左下）
+    const clearBtn = document.createElement("button");
+    clearBtn.textContent = "クリア";
+    clearBtn.style.fontSize = "0.9rem";
+    clearBtn.style.padding = "8px 6px";
+    clearBtn.addEventListener("click", () => {
+      currentAnswer = "";
+      updateAnswerDisplay("");
+    });
+    container.appendChild(clearBtn);
+
+    // 決定ボタン（右下）
     const enterBtn = document.createElement("button");
     enterBtn.textContent = "けってい";
+    enterBtn.style.fontSize = "0.9rem";
+    enterBtn.style.padding = "8px 6px";
     enterBtn.addEventListener("click", () => {
       if (currentAnswer !== "") {
         checkAnswer(parseInt(currentAnswer));
@@ -217,15 +241,6 @@ function renderAnswerButtons(maxAnswer) {
       }
     });
     container.appendChild(enterBtn);
-
-    // クリアボタン
-    const clearBtn = document.createElement("button");
-    clearBtn.textContent = "クリア";
-    clearBtn.addEventListener("click", () => {
-      currentAnswer = "";
-      updateAnswerDisplay("");
-    });
-    container.appendChild(clearBtn);
   } else if (maxAnswer === 18) {
     for (let i = 11; i <= maxAnswer; i++) {
       const btn = document.createElement("button");
