@@ -21,7 +21,8 @@ window.addEventListener("DOMContentLoaded", () => {
   const checkedOp = document.querySelector(
     'input[name="operation"]:checked'
   ).value;
-  carryOptions.style.display = checkedOp === "sub" ? "none" : "block";
+  carryOptions.style.display =
+    checkedOp === "sub" || checkedOp === "mul" ? "none" : "block";
 });
 
 // くりあがりの選択表示
@@ -31,6 +32,8 @@ operationRadios.forEach((radio) => {
       carryOptions.style.display = "none";
     } else if (radio.value === "add" && radio.checked) {
       carryOptions.style.display = "block";
+    } else if (radio.value === "mul" && radio.checked) {
+      carryOptions.style.display = "none";
     }
   });
 });
@@ -51,10 +54,18 @@ startBtn.onclick = () => {
     'input[name="operation"]:checked'
   ).value;
 
-  if (selectedType === "carry") {
-    renderAnswerButtons(18); // くり上がりあり → 1〜18
+  // answer-displayの表示/非表示を制御
+  const answerDisplay = document.getElementById("answer-display");
+  if (selectedOp === "mul") {
+    answerDisplay.style.display = "block";
+    renderAnswerButtons("mul"); // かけ算 → 0〜9の数字ボタン
   } else {
-    renderAnswerButtons(10); // くり上がりなし → 1〜10
+    answerDisplay.style.display = "none";
+    if (selectedType === "carry") {
+      renderAnswerButtons(18); // くり上がりあり → 1〜18
+    } else {
+      renderAnswerButtons(10); // くり上がりなし → 1〜10
+    }
   }
   generateProblemList(selectedOrder, selectedType, selectedOp);
 
@@ -77,6 +88,13 @@ function generateProblemList(
         if (a > b) {
           problems.push({ a, b, op: "-" });
         }
+      }
+    }
+  } else if (operation === "mul") {
+    // かけ算
+    for (let a = 1; a <= 9; a++) {
+      for (let b = 1; b <= 9; b++) {
+        problems.push({ a, b, op: "×" });
       }
     }
   } else {
@@ -136,24 +154,31 @@ function displayProblem() {
 
 function checkAnswer(input) {
   const { a, b, op } = problems[currentIndex];
-  const correct = op === "+" ? a + b : a - b;
-
-if (input === correct) {
-  resultText.textContent = "○ せいかい！";
-  resultText.style.color = "green";
-
-  if (correctAudio) {
-    correctAudio.currentTime = 0;
-    correctAudio.play();
+  let correct;
+  if (op === "+") {
+    correct = a + b;
+  } else if (op === "-") {
+    correct = a - b;
+  } else if (op === "×") {
+    correct = a * b;
   }
 
-  // ちょっと待ってから次へ（300msくらい）
-  setTimeout(() => {
-    currentIndex++;
-    displayProblem();
-    updateProgressBar();
-  }, 300);
-} else {
+  if (input === correct) {
+    resultText.textContent = "○ せいかい！";
+    resultText.style.color = "green";
+
+    if (correctAudio) {
+      correctAudio.currentTime = 0;
+      correctAudio.play();
+    }
+
+    // ちょっと待ってから次へ（300msくらい）
+    setTimeout(() => {
+      currentIndex++;
+      displayProblem();
+      updateProgressBar();
+    }, 300);
+  } else {
     // 間違い処理
     // 正解するまで進めない
     resultText.textContent = "✕ ざんねん…";
@@ -165,7 +190,43 @@ if (input === correct) {
 function renderAnswerButtons(maxAnswer) {
   const container = document.getElementById("answer-buttons");
   container.innerHTML = ""; // 既存ボタンをクリア
-  if (maxAnswer === 18) {
+
+  if (maxAnswer === "mul") {
+    // かけ算用：0〜9の数字ボタンを作成
+    let currentAnswer = "";
+
+    // 数字ボタン（0〜9）
+    for (let i = 0; i <= 9; i++) {
+      const btn = document.createElement("button");
+      btn.textContent = i;
+      btn.addEventListener("click", () => {
+        currentAnswer += i.toString();
+        updateAnswerDisplay(currentAnswer);
+      });
+      container.appendChild(btn);
+    }
+
+    // 決定ボタン
+    const enterBtn = document.createElement("button");
+    enterBtn.textContent = "けってい";
+    enterBtn.addEventListener("click", () => {
+      if (currentAnswer !== "") {
+        checkAnswer(parseInt(currentAnswer));
+        currentAnswer = "";
+        updateAnswerDisplay("");
+      }
+    });
+    container.appendChild(enterBtn);
+
+    // クリアボタン
+    const clearBtn = document.createElement("button");
+    clearBtn.textContent = "クリア";
+    clearBtn.addEventListener("click", () => {
+      currentAnswer = "";
+      updateAnswerDisplay("");
+    });
+    container.appendChild(clearBtn);
+  } else if (maxAnswer === 18) {
     for (let i = 11; i <= maxAnswer; i++) {
       const btn = document.createElement("button");
       btn.textContent = i;
@@ -186,6 +247,14 @@ function renderAnswerButtons(maxAnswer) {
 function updateProgressBar() {
   const percent = Math.floor((currentIndex / total_problems) * 100);
   progressBar.style.width = `${percent}%`;
+}
+
+// 答え表示を更新する
+function updateAnswerDisplay(answer) {
+  const answerDisplay = document.getElementById("answer-display");
+  if (answerDisplay) {
+    answerDisplay.textContent = answer || "";
+  }
 }
 
 // 問題が終了した後の処理
