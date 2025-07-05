@@ -22,7 +22,7 @@ window.addEventListener("DOMContentLoaded", () => {
     'input[name="operation"]:checked'
   ).value;
   carryOptions.style.display =
-    checkedOp === "sub" || checkedOp === "mul" ? "none" : "block";
+    checkedOp === "sub" || checkedOp === "mul" ? "none" : "flex";
 });
 
 // くりあがりの選択表示
@@ -31,7 +31,7 @@ operationRadios.forEach((radio) => {
     if (radio.value === "sub" && radio.checked) {
       carryOptions.style.display = "none";
     } else if (radio.value === "add" && radio.checked) {
-      carryOptions.style.display = "block";
+      carryOptions.style.display = "flex";
     } else if (radio.value === "mul" && radio.checked) {
       carryOptions.style.display = "none";
     }
