@@ -18,6 +18,7 @@ button {
   color: white;
   border-radius: 8px;
   cursor: pointer;
+  min-height: 48px;
 }
 button:hover {
   background-color: #6bb8e4;
