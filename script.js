@@ -16,22 +16,43 @@ const correctAudio = document.getElementById("correct-audio");
 const operationRadios = document.querySelectorAll('input[name="operation"]');
 const carryOptions = document.getElementById("carry-options");
 
+function updateCarrySagariLabel(op) {
+  // op: 'add' or 'sub'
+  const carryLabel = document.getElementById("carry-label");
+  const sagariLabel = document.getElementById("sagari-label");
+  const carryLabelNo = document.getElementById("carry-label-no");
+  const sagariLabelNo = document.getElementById("sagari-label-no");
+  if (!carryLabel || !sagariLabel || !carryLabelNo || !sagariLabelNo) return;
+  if (op === "sub") {
+    carryLabel.style.display = "none";
+    sagariLabel.style.display = "inline";
+    carryLabelNo.style.display = "none";
+    sagariLabelNo.style.display = "inline";
+  } else {
+    carryLabel.style.display = "inline";
+    sagariLabel.style.display = "none";
+    carryLabelNo.style.display = "inline";
+    sagariLabelNo.style.display = "none";
+  }
+}
 // ページ読み込み時に初期状態を決める
 window.addEventListener("DOMContentLoaded", () => {
   const checkedOp = document.querySelector(
     'input[name="operation"]:checked'
   ).value;
+  // ここを修正：加算と減算どちらでもくりオプション表示
   carryOptions.style.display =
-    checkedOp === "sub" || checkedOp === "mul" ? "none" : "flex";
+    checkedOp === "add" || checkedOp === "sub" ? "flex" : "none";
+  updateCarrySagariLabel(checkedOp);
 });
 
 // くりあがりの選択表示
 operationRadios.forEach((radio) => {
   radio.addEventListener("change", () => {
-    if (radio.value === "sub" && radio.checked) {
-      carryOptions.style.display = "none";
-    } else if (radio.value === "add" && radio.checked) {
+    // ここを修正：加算・減算の時にくり選択肢を表示
+    if ((radio.value === "add" || radio.value === "sub") && radio.checked) {
       carryOptions.style.display = "flex";
+      updateCarrySagariLabel(radio.value);
     } else if (radio.value === "mul" && radio.checked) {
       carryOptions.style.display = "none";
     }
@@ -54,6 +75,9 @@ startBtn.onclick = () => {
     'input[name="operation"]:checked'
   ).value;
 
+  // 問題リストを先に生成（答えの範囲確定のため）
+  generateProblemList(selectedOrder, selectedType, selectedOp);
+
   // answer-displayの表示/非表示を制御
   const answerDisplay = document.getElementById("answer-display");
   if (selectedOp === "mul") {
@@ -61,13 +85,17 @@ startBtn.onclick = () => {
     renderAnswerButtons("mul"); // かけ算 → 0〜9の数字ボタン
   } else {
     answerDisplay.style.display = "none";
-    if (selectedType === "carry") {
-      renderAnswerButtons(18); // くり上がりあり → 1〜18
-    } else {
-      renderAnswerButtons(10); // くり上がりなし → 1〜10
+    // --- button範囲の仕様に合わせて分岐 ---
+    if (selectedOp === "sub") {
+      renderAnswerButtons(9); // ひき算はいつも1〜9
+    } else if (selectedOp === "add") {
+      if (selectedType === "carry") {
+        renderAnswerButtons(18, 11); // たし算 くりあがりあり→11〜18
+      } else {
+        renderAnswerButtons(10); // たし算 くりあがりなし→1〜10
+      }
     }
   }
-  generateProblemList(selectedOrder, selectedType, selectedOp);
 
   displayProblem();
   updateProgressBar();
@@ -83,10 +111,28 @@ function generateProblemList(
 
   if (operation === "sub") {
     // 引き算
-    for (let a = 1; a <= 10; a++) {
-      for (let b = 1; b <= 9; b++) {
-        if (a > b) {
-          problems.push({ a, b, op: "-" });
+    if (type === "carry") {
+      for (let a = 11; a <= 18; a++) {
+        for (let b = 1; b <= 9; b++) {
+          if (a > b) {
+            const a1 = a % 10,
+              b1 = b % 10;
+            if (a1 < b1) {
+              problems.push({ a, b, op: "-" });
+            }
+          }
+        }
+      }
+    } else {
+      for (let a = 2; a <= 10; a++) {
+        for (let b = 1; b <= 9; b++) {
+          if (a > b) {
+            const a1 = a % 10,
+              b1 = b % 10;
+            if (a1 >= b1) {
+              problems.push({ a, b, op: "-" });
+            }
+          }
         }
       }
     }
@@ -187,7 +233,7 @@ function checkAnswer(input) {
 }
 
 // 回答ボタンを作る
-function renderAnswerButtons(maxAnswer) {
+function renderAnswerButtons(maxAnswer, minAnswer = 1) {
   const container = document.getElementById("answer-buttons");
   container.innerHTML = ""; // 既存ボタンをクリア
 
@@ -241,15 +287,8 @@ function renderAnswerButtons(maxAnswer) {
       }
     });
     container.appendChild(enterBtn);
-  } else if (maxAnswer === 18) {
-    for (let i = 11; i <= maxAnswer; i++) {
-      const btn = document.createElement("button");
-      btn.textContent = i;
-      btn.addEventListener("click", () => checkAnswer(i));
-      container.appendChild(btn);
-    }
-  } else {
-    for (let i = 1; i <= maxAnswer; i++) {
+  } else if (typeof maxAnswer === "number") {
+    for (let i = minAnswer; i <= maxAnswer; i++) {
       const btn = document.createElement("button");
       btn.textContent = i;
       btn.addEventListener("click", () => checkAnswer(i));
