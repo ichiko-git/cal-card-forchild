@@ -414,7 +414,8 @@ function QuestionScreen({
               className={`answer-button ${selectedAnswer === answer ? 'selected' : ''} ${feedback === 'correct' && selectedAnswer === answer ? 'correct-answer' : ''} ${feedback === 'incorrect' && selectedAnswer === answer ? 'incorrect-answer' : ''}`}
               onClick={(e) => {
                 e.preventDefault();
-                if (feedback === null) {
+                // 正解中の時だけボタンを無効化（間違えた時はすぐに再挑戦可能）
+                if (feedback !== 'correct') {
                   onAnswerSelect(answer);
                   onAnswerSubmit(answer);
                 }
@@ -422,7 +423,8 @@ function QuestionScreen({
               onTouchEnd={(e) => {
                 e.preventDefault();
                 e.stopPropagation();
-                if (feedback === null) {
+                // 正解中の時だけボタンを無効化（間違えた時はすぐに再挑戦可能）
+                if (feedback !== 'correct') {
                   onAnswerSelect(answer);
                   onAnswerSubmit(answer);
                 }
@@ -482,14 +484,16 @@ function QuestionScreen({
               className="number-button clear-button"
               onClick={(e) => {
                 e.preventDefault();
-                if (feedback === null) {
+                // 正解中の時だけボタンを無効化（間違えた時はすぐに再挑戦可能）
+                if (feedback !== 'correct') {
                   setInputValue('');
                 }
               }}
               onTouchEnd={(e) => {
                 e.preventDefault();
                 e.stopPropagation();
-                if (feedback === null) {
+                // 正解中の時だけボタンを無効化（間違えた時はすぐに再挑戦可能）
+                if (feedback !== 'correct') {
                   setInputValue('');
                 }
               }}
@@ -500,7 +504,8 @@ function QuestionScreen({
               className="number-button ok-button"
               onClick={(e) => {
                 e.preventDefault();
-                if (feedback === null && inputValue !== '') {
+                // 正解中の時だけボタンを無効化（間違えた時はすぐに再挑戦可能）
+                if (feedback !== 'correct' && inputValue !== '') {
                   onAnswerSubmit(parseInt(inputValue));
                   setInputValue('');
                 }
@@ -508,7 +513,8 @@ function QuestionScreen({
               onTouchEnd={(e) => {
                 e.preventDefault();
                 e.stopPropagation();
-                if (feedback === null && inputValue !== '') {
+                // 正解中の時だけボタンを無効化（間違えた時はすぐに再挑戦可能）
+                if (feedback !== 'correct' && inputValue !== '') {
                   onAnswerSubmit(parseInt(inputValue));
                   setInputValue('');
                 }
