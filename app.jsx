@@ -155,7 +155,11 @@ function App() {
 
 // モード選択画面コンポーネント
 function ModeSelectScreen({ onSelectMode }) {
-  const handleModeSelect = (mode) => {
+  const handleModeSelect = (mode, e) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
     onSelectMode(mode);
   };
 
@@ -165,30 +169,33 @@ function ModeSelectScreen({ onSelectMode }) {
       <div className="mode-buttons">
         <button 
           className="mode-button" 
-          onClick={() => handleModeSelect('add')}
-          onTouchStart={(e) => {
+          onClick={(e) => handleModeSelect('add', e)}
+          onTouchEnd={(e) => {
             e.preventDefault();
-            handleModeSelect('add');
+            e.stopPropagation();
+            handleModeSelect('add', e);
           }}
         >
           たしざん
         </button>
         <button 
           className="mode-button" 
-          onClick={() => handleModeSelect('sub')}
-          onTouchStart={(e) => {
+          onClick={(e) => handleModeSelect('sub', e)}
+          onTouchEnd={(e) => {
             e.preventDefault();
-            handleModeSelect('sub');
+            e.stopPropagation();
+            handleModeSelect('sub', e);
           }}
         >
           ひきざん
         </button>
         <button 
           className="mode-button" 
-          onClick={() => handleModeSelect('mul')}
-          onTouchStart={(e) => {
+          onClick={(e) => handleModeSelect('mul', e)}
+          onTouchEnd={(e) => {
             e.preventDefault();
-            handleModeSelect('mul');
+            e.stopPropagation();
+            handleModeSelect('mul', e);
           }}
         >
           かけざん
@@ -347,7 +354,17 @@ function SettingSelectScreen({ mode, order, onSelectOrder, onSelectSetting }) {
 
       <button 
         className="start-button" 
-        onClick={handleStart}
+        onClick={(e) => {
+          e.preventDefault();
+          handleStart();
+        }}
+        onTouchEnd={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          if (localSetting !== null) {
+            handleStart();
+          }
+        }}
         disabled={localSetting === null}
       >
         スタート
@@ -395,7 +412,16 @@ function QuestionScreen({
             <button
               key={answer}
               className={`answer-button ${selectedAnswer === answer ? 'selected' : ''} ${feedback === 'correct' && selectedAnswer === answer ? 'correct-answer' : ''} ${feedback === 'incorrect' && selectedAnswer === answer ? 'incorrect-answer' : ''}`}
-              onClick={() => {
+              onClick={(e) => {
+                e.preventDefault();
+                if (feedback === null) {
+                  onAnswerSelect(answer);
+                  onAnswerSubmit(answer);
+                }
+              }}
+              onTouchEnd={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
                 if (feedback === null) {
                   onAnswerSelect(answer);
                   onAnswerSubmit(answer);
@@ -435,7 +461,15 @@ function QuestionScreen({
               <button
                 key={num}
                 className="number-button"
-                onClick={() => {
+                onClick={(e) => {
+                  e.preventDefault();
+                  if (feedback === null) {
+                    setInputValue(inputValue + num.toString());
+                  }
+                }}
+                onTouchEnd={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
                   if (feedback === null) {
                     setInputValue(inputValue + num.toString());
                   }
@@ -446,7 +480,15 @@ function QuestionScreen({
             ))}
             <button
               className="number-button clear-button"
-              onClick={() => {
+              onClick={(e) => {
+                e.preventDefault();
+                if (feedback === null) {
+                  setInputValue('');
+                }
+              }}
+              onTouchEnd={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
                 if (feedback === null) {
                   setInputValue('');
                 }
@@ -456,7 +498,16 @@ function QuestionScreen({
             </button>
             <button
               className="number-button ok-button"
-              onClick={() => {
+              onClick={(e) => {
+                e.preventDefault();
+                if (feedback === null && inputValue !== '') {
+                  onAnswerSubmit(parseInt(inputValue));
+                  setInputValue('');
+                }
+              }}
+              onTouchEnd={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
                 if (feedback === null && inputValue !== '') {
                   onAnswerSubmit(parseInt(inputValue));
                   setInputValue('');
@@ -523,10 +574,32 @@ function ResultScreen({ correctCount, wrongCount, totalCount, startTime, endTime
         <div className="encouragement-message">{messageElement}</div>
       </div>
       <div className="result-buttons">
-        <button className="result-button" onClick={onRestart}>
+        <button 
+          className="result-button" 
+          onClick={(e) => {
+            e.preventDefault();
+            onRestart();
+          }}
+          onTouchEnd={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            onRestart();
+          }}
+        >
           もういちど
         </button>
-        <button className="result-button" onClick={onRestart}>
+        <button 
+          className="result-button" 
+          onClick={(e) => {
+            e.preventDefault();
+            onRestart();
+          }}
+          onTouchEnd={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            onRestart();
+          }}
+        >
           さいしょにもどる
         </button>
       </div>
