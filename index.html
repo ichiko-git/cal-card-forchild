@@ -8,75 +8,16 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <h1>けいさんカード</h1>
-    <!-- スタート画面 -->
-    <div id="start-screen">
-      <div class="radio-group">
-        <input type="radio" id="add" name="operation" value="add" checked />
-        <label for="add">たし算</label>
-
-        <input type="radio" id="sub" name="operation" value="sub" />
-        <label for="sub">ひき算</label>
-
-        <input type="radio" id="mul" name="operation" value="mul" />
-        <label for="mul">かけ算</label>
-      </div>
-
-      <div id="carry-options" class="radio-group">
-        <input
-          type="radio"
-          id="no-carry"
-          name="type"
-          value="no-carry"
-          checked
-        />
-        <label for="no-carry"
-          ><span id="carry-label-no">くりあがり</span
-          ><span id="sagari-label-no" style="display: none">くりさがり</span
-          >なし</label
-        >
-        <input type="radio" id="carry" name="type" value="carry" />
-        <label for="carry"
-          ><span id="carry-label">くりあがり</span
-          ><span id="sagari-label" style="display: none">くりさがり</span
-          >あり</label
-        >
-      </div>
-
-      <div class="radio-group">
-        <input
-          type="radio"
-          id="sequential"
-          name="order"
-          value="sequential"
-          checked
-        />
-        <label for="sequential">じゅんばん</label>
-        <input type="radio" id="random" name="order" value="random" />
-        <label for="random">ランダム</label>
-      </div>
-      <br /><br />
-      <button id="start-btn">スタート</button>
-    </div>
-
-    <!-- ゲーム画面 -->
-    <div id="game-screen" style="display: none">
-      <div class="progress-container">
-        <div id="progress-bar"></div>
-      </div>
-      <div class="problem" id="problem">？ + ？ = ?</div>
-      <div id="answer-display"></div>
-      <div class="buttons" id="answer-buttons"></div>
-      <div class="result" id="result"></div>
-    </div>
-    <!-- エンド画面 -->
-    <div id="end-screen" style="display: none">
-      <p>よくがんばったね！！</p>
-      <p id="final-message"></p>
-      <button onclick="location.reload()">もういちど</button>
-    </div>
+    <div id="root"></div>
 
     <audio id="correct-audio" src="audio/correct.mp3" preload="auto"></audio>
-    <script src="script.js"></script>
+
+    <!-- React -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <!-- Babel Standalone for JSX transformation -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <!-- Main App -->
+    <script type="text/babel" src="app.jsx"></script>
   </body>
 </html>
