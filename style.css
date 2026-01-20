@@ -13,6 +13,8 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  touch-action: manipulation;
+  -webkit-touch-callout: none;
 }
 
 #root {
@@ -44,11 +46,18 @@ h2 {
   align-items: center;
   justify-content: center;
   min-height: 70vh;
+  width: 100%;
+}
+
+.mode-select-screen h1 {
+  width: 100%;
+  text-align: center;
 }
 
 .mode-buttons {
   display: flex;
   flex-direction: column;
+  flex-wrap: nowrap;
   gap: 20px;
   width: 100%;
   max-width: 300px;
@@ -65,6 +74,11 @@ h2 {
   min-height: 80px;
   transition: all 0.3s;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  -webkit-user-select: none;
+  pointer-events: auto;
 }
 
 .mode-button:hover {
@@ -140,6 +154,11 @@ h2 {
   transition: all 0.3s;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   margin-top: 20px;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  -webkit-user-select: none;
+  pointer-events: auto;
 }
 
 .start-button:hover:not(:disabled) {
@@ -202,6 +221,11 @@ h2 {
   min-height: 70px;
   transition: all 0.2s;
   font-weight: bold;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  -webkit-user-select: none;
+  pointer-events: auto;
 }
 
 .answer-button:hover:not(.selected) {
@@ -276,6 +300,11 @@ h2 {
   min-height: 70px;
   transition: all 0.2s;
   font-weight: bold;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  -webkit-user-select: none;
+  pointer-events: auto;
 }
 
 .number-button:hover {
@@ -397,6 +426,11 @@ h2 {
   min-height: 60px;
   transition: all 0.3s;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  -webkit-user-select: none;
+  pointer-events: auto;
 }
 
 .result-button:hover {
@@ -422,6 +456,12 @@ h2 {
   .mode-button {
     font-size: 1.5rem;
     padding: 25px 15px;
+    width: 100%;
+  }
+  
+  .mode-buttons {
+    width: 100%;
+    max-width: 100%;
   }
 
   .answer-button {

@@ -155,17 +155,42 @@ function App() {
 
 // モード選択画面コンポーネント
 function ModeSelectScreen({ onSelectMode }) {
+  const handleModeSelect = (mode) => {
+    onSelectMode(mode);
+  };
+
   return (
     <div className="screen mode-select-screen">
       <h1>けいさんカード</h1>
       <div className="mode-buttons">
-        <button className="mode-button" onClick={() => onSelectMode('add')}>
+        <button 
+          className="mode-button" 
+          onClick={() => handleModeSelect('add')}
+          onTouchStart={(e) => {
+            e.preventDefault();
+            handleModeSelect('add');
+          }}
+        >
           たしざん
         </button>
-        <button className="mode-button" onClick={() => onSelectMode('sub')}>
+        <button 
+          className="mode-button" 
+          onClick={() => handleModeSelect('sub')}
+          onTouchStart={(e) => {
+            e.preventDefault();
+            handleModeSelect('sub');
+          }}
+        >
           ひきざん
         </button>
-        <button className="mode-button" onClick={() => onSelectMode('mul')}>
+        <button 
+          className="mode-button" 
+          onClick={() => handleModeSelect('mul')}
+          onTouchStart={(e) => {
+            e.preventDefault();
+            handleModeSelect('mul');
+          }}
+        >
           かけざん
         </button>
       </div>
