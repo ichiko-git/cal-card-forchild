@@ -81,12 +81,6 @@ h2 {
   pointer-events: auto;
 }
 
-.mode-button:hover {
-  background-color: #6bb8e4;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
-}
-
 .mode-button:active {
   transform: translateY(0);
 }
@@ -161,12 +155,6 @@ h2 {
   pointer-events: auto;
 }
 
-.start-button:hover:not(:disabled) {
-  background-color: #6bb8e4;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
-}
-
 .start-button:disabled {
   background-color: #ccc;
   cursor: not-allowed;
@@ -226,11 +214,6 @@ h2 {
   user-select: none;
   -webkit-user-select: none;
   pointer-events: auto;
-}
-
-.answer-button:hover:not(.selected) {
-  background-color: #e6f3ff;
-  transform: scale(1.05);
 }
 
 .answer-button.selected {
@@ -307,11 +290,6 @@ h2 {
   pointer-events: auto;
 }
 
-.number-button:hover {
-  background-color: #e6f3ff;
-  transform: scale(1.05);
-}
-
 .clear-button {
   background-color: #ffd700;
   border-color: #ffa500;
@@ -322,10 +300,6 @@ h2 {
   border-color: #3399ff;
   color: white;
   font-weight: bold;
-}
-
-.ok-button:hover {
-  background-color: #6bb8e4;
 }
 
 /* フィードバック */
@@ -433,10 +407,49 @@ h2 {
   pointer-events: auto;
 }
 
-.result-button:hover {
-  background-color: #6bb8e4;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+
+@media (hover: hover) and (pointer: fine) {
+  .mode-button:hover {
+    background-color: #6bb8e4;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+  }
+
+  .start-button:hover:not(:disabled) {
+    background-color: #6bb8e4;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+  }
+
+  .answer-button:hover:not(.selected) {
+    background-color: #e6f3ff;
+    transform: scale(1.05);
+  }
+
+  .number-button:hover {
+    background-color: #e6f3ff;
+    transform: scale(1.05);
+  }
+
+  .ok-button:hover {
+    background-color: #6bb8e4;
+  }
+
+  .result-button:hover {
+    background-color: #6bb8e4;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+  }
+}
+
+@media (hover: none), (pointer: coarse) {
+  .mode-button:active,
+  .start-button:active,
+  .answer-button:active,
+  .number-button:active,
+  .result-button:active {
+    transform: scale(0.98);
+  }
 }
 
 /* レスポンシブ対応 */
